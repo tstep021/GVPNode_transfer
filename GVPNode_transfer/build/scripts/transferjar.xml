@@ -1,0 +1,46 @@
+<project name="Phoenix_transfer" default="all" basedir="../..">
+
+	  <property name="jar.name" value="transfer"/>
+	  <property name="build" 	value="${basedir}/build"/> 
+	  <property name="lib"   	value="${basedir}/lib" /> 
+	  <property name="src" 		value="${basedir}/src"/>
+	  <property name="classes" 	value="${build}/classes"/>
+	  <property name="deploy" 	value="${build}/deploy"/>
+
+	<!-- ############################## Compile Options ####################### -->	
+	<property name="compile.debug" value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize" value="true"/>
+	
+	<!-- the target jar file -->
+	<property name="app_jar"       value="${deploy}/${jar.name}.jar"/>
+	<!-- ############################## class Path ############################# -->
+	<path id="compile.classpath">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+		</fileset>
+
+		<pathelement location="${classes}"/>
+	</path>
+
+	<!-- ############################## ant all ######################################### -->
+	<!--<target name="all" depends="clean, prepare, compile, deploy" description="Clean and compile and war"/>-->
+	<target name="all" depends="compile, deploy" description="Clean, compile and deploy"/>
+
+	
+	<!-- ############################## ant compile ######################################### -->
+	<target name="compile" description="Compile source code">   		
+		<javac includeantruntime="false" srcdir="${src}/com" destdir="${classes}" 
+			classpath="${classpath}" 			
+		>
+			<classpath refid="compile.classpath"/>
+		</javac>		
+	</target>
+	
+	  <!-- The deploy target that deploys the JAR file of Java classes to the deploy directory -->
+	 <target name="deploy" depends="compile" description="put all the classes into a JAR file">    
+		  	<jar jarfile="${app_jar}" basedir="${classes}">
+		  	</jar>  
+	</target>
+	
+</project>
